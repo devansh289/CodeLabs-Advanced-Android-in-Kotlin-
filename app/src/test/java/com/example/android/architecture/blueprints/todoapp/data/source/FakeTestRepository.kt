@@ -25,7 +25,7 @@ class FakeTestRepository : TasksRepository  {
     }
 
     override suspend fun refreshTasks() {
-        observableTasks.value = getTasks()
+        observableTasks.value = getTasks(false)
     }
 
     override fun observeTasks(): LiveData<Result<List<Task>>> {
