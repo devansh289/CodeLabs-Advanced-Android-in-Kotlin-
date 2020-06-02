@@ -35,7 +35,7 @@ class TasksViewModelTest {
     private lateinit var tasksViewModel: TasksViewModel
 
     // Executes each task synchronously using Architecture Components.
-    @get:Rulen
+    @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
     @Before
