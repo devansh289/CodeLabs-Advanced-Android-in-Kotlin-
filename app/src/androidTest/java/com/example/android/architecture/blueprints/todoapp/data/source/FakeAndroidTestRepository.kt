@@ -11,9 +11,6 @@ import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepo
 import com.example.android.architecture.blueprints.todoapp.data.source.remote.TasksRemoteDataSource
 import kotlinx.coroutines.runBlocking
 import java.util.LinkedHashMap
-
-
-
 class FakeAndroidTestRepository : TasksRepository {
 
     var tasksServiceData: LinkedHashMap<String, Task> = LinkedHashMap()
@@ -25,15 +22,12 @@ class FakeAndroidTestRepository : TasksRepository {
     fun setReturnError(value: Boolean) {
         shouldReturnError = value
     }
-
     override suspend fun refreshTasks() {
-        observableTasks.value = getTasks(false)
+        observableTasks.value = getTasks()
     }
-
     override suspend fun refreshTask(taskId: String) {
         refreshTasks()
     }
-
     override fun observeTasks(): LiveData<Result<List<Task>>> {
         runBlocking { refreshTasks() }
         return observableTasks
@@ -89,11 +83,9 @@ class FakeAndroidTestRepository : TasksRepository {
         val activeTask = Task(task.title, task.description, false, task.id)
         tasksServiceData[task.id] = activeTask
     }
-
     override suspend fun activateTask(taskId: String) {
         throw NotImplementedError()
     }
-
     override suspend fun clearCompletedTasks() {
         tasksServiceData = tasksServiceData.filterValues {
             !it.isCompleted
@@ -109,8 +101,6 @@ class FakeAndroidTestRepository : TasksRepository {
         tasksServiceData.clear()
         refreshTasks()
     }
-
-
     fun addTasks(vararg tasks: Task) {
         for (task in tasks) {
             tasksServiceData[task.id] = task
